@@ -1,7 +1,7 @@
 {
   "company": {
     "name": "React landing page 2021",
-    "logo": "/assets/images/logo.png"
+    "logo": "/assets/images/logo2.jpg"
   },
   "navigation": [
     {
@@ -31,18 +31,18 @@
     "subtitle": "landing page.",
     "services": ["Centro de Bienestar", "Ayuda domiciliaria"],
     "description": "Ubicados en Sagunto nos dedicamos a la atención de la 3ª edad y personas dependientes.",
-    "img": "/assets/images/happyTeam.jpeg",
+    "img": "/assets/images/clinica2.jpg",
     "primaryAction": {
-      "text": "Get started",
+      "text": "Conoce a nuestro equipo",
       "href": "#"
     },
     "secondaryAction": {
-      "text": "Email us",
-      "href": "mailto:issaafakattan@gmail.com?subject=I like react landing page!"
+      "text": "Contacta con nosotros",
+      "href": "mailto:katiamartin@gmail.com?subject=Me gustaría saber más sobre vuestros servicios"
     }
   },
   "product": {
-    "title": "React landing page 2021",
+    "title": "Servicio Cuida a tus mayores",
     "items": [
       {
         "title": "A plug n play template",
