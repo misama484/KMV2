@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createContext, useContext } from 'react';
 
 export const CanvasContext = createContext<{

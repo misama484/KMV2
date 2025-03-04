@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Fragment } from 'react';
 
 import { Popover, Transition } from '@headlessui/react';

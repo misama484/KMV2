@@ -5,16 +5,16 @@
   },
   "navigation": [
     {
-      "name": "Product",
+      "name": "Servicios",
       "href": "product"
     },
     {
-      "name": "Features",
+      "name": "Centro de Bienestar",
       "href": "features"
     },
 
     {
-      "name": "Pricing",
+      "name": "Ayuda domiciliaria",
       "href": "pricing"
     },
     {
@@ -27,9 +27,10 @@
     "href": "#"
   },
   "mainHero": {
-    "title": "Use me as your",
+    "title": "Katia Martín",
     "subtitle": "landing page.",
-    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    "services": ["Centro de Bienestar", "Ayuda domiciliaria"],
+    "description": "Ubicados en Sagunto nos dedicamos a la atención de la 3ª edad y personas dependientes.",
     "img": "/assets/images/happyTeam.jpeg",
     "primaryAction": {
       "text": "Get started",
