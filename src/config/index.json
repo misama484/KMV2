@@ -46,8 +46,8 @@
     "items": [
       {
         "title": "Aseo e higiene personal de mayores",
-        "description": "Nos encargamos de asistir a las personas mayores en su higiene diaria, incluyendo el baño, el cuidado bucal, el lavado y peinado del cabello, y el cambio de ropa. Además, implica mantener la limpieza del entorno, cuidar de las uñas y atender necesidades especiales relacionadas con la higiene personal. También se debe proporcionar apoyo emocional y observar cualquier cambio en la salud de los mayores, siguiendo las normativas establecidas para garantizar su bienestar y seguridad.",
-        "img": "/assets/images/clinica1.jpg"
+        "description": "Nos encargamos de asistir a las personas mayores en su higiene diaria, incluyendo el baño, el cuidado bucal, el lavado y peinado del cabello, y el cambio de ropa. Además, implica mantener la limpieza del entorno, cuidar de las uñas y atender necesidades especiales relacionadas con la higiene personal. También se proporciona apoyo emocional y observamos cualquier cambio en la salud de los mayores, siguiendo las normativas establecidas para garantizar su bienestar y seguridad.",
+        "img": "/assets/images/clinica2.jpg"
       },
       {
         "title": "Apoyo en las tareas del hogar",
@@ -57,19 +57,19 @@
       {
         "title": "Enfermeria domiciliaria",
         "description": "Nos encargamos de proporcionar cuidados médicos y de salud en el hogar de los pacientes, lo que puede abarcar la administración de medicamentos, la supervisión de tratamientos médicos, y la realización de procedimientos médicos básicos como la toma de signos vitales, curaciones y la administración de inyecciones. Además, los enfermeros domiciliarios asesoramos sobre el manejo de enfermedades crónicas, educamos a los pacientes y sus familias sobre cuidados y prácticas de salud, y coordinamos con otros profesionales de la salud para asegurar una atención integral y personalizada. Nuestro objetivo es promover el bienestar del paciente en un entorno familiar, asegurando la continuidad y calidad de la atención.",
-        "img": "/assets/images/clinica1.jpg"
+        "img": "/assets/images/clinica2.jpg"
       }
     ]
   },
   "features": {
-    "title": "Latest & greatest ",
-    "subtitle": "All the best technologies out there!",
-    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    "title": "Sobre nosotros",
+    "subtitle": "Nuestra historia",
+    "description": "Nuestro centro de ayuda y bienestar nace de la necesidad de ayudar a las personas, vemos cada dia como muchos de nuestros mayores necesitan de ayuda pero no pueden permitirse una persona dedicada, en ese lugar estamos nosotros ofreciendo servicios puntualizados o si se desea de forma continua. Somos una empresa joven, con metologias modernas sin perder lo aprendido por tradicion, con gente joven alegre y con ganas de compartir experiencia con nuestros mayores.",
     "items": [
       {
-        "name": "React.js",
-        "description": "React is a free and open-source front-end JavaScript library for building user interfaces or UI components.",
-        "icon": "/assets/images/react.png"
+        "name": "Katia Martín",
+        "description": "Katia Martín es la fundadora de nuestro centro de ayuda y bienestar, con una larga trayectoria en el cuidado de personas mayores y dependientes. Su pasión por ayudar a los demás y su compromiso con la calidad y el bienestar de sus pacientes han sido la base de nuestro centro, que se ha convertido en un referente en la atención domiciliaria y el cuidado de la tercera edad en Sagunto.",
+        "icon": "/assets/images/katiaMartin.jpeg"
       },
       {
         "name": "Tailwind",

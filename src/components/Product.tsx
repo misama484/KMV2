@@ -25,8 +25,8 @@ const Product = () => {
         <Divider />
         <div className={`flex flex-wrap`}>
           {product.items.map((item) => (
-            <>
-          <div className={`w-5/6 sm:w-1/2 p-6 mt-20`}>
+            <div className='flex items-start sm:flex-row flex-col'>
+          <div className={`w-5/6 sm:w-1/2 p-6 mt-20 `}>
             <h3
               className={`text-3xl text-gray-800 font-bold leading-none mb-3`}
             >
@@ -36,14 +36,15 @@ const Product = () => {
           </div>
           <div className={`w-full sm:w-1/2 p-6`}>
             <img
-              className={"h-6/6"}
+              className="h-85 w-85 rounded-full shadow-lg"
               src={item.img}
               alt={item.title}
             />
           </div>
-          </>
+          </div>
           ))}
         </div>
+        
         <div className={`flex flex-wrap flex-col-reverse sm:flex-row`}>
           <div className={`w-auto sm:w-1/2 p-6`}>
             <img
