@@ -19,7 +19,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#88b4ac',
-        secondary: '#a12c34',
+        secondary: '#424242',
         tertiary: '#fff',
         border: '#1a2e35',
         background: '#3a8276',
@@ -43,7 +43,9 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 };
 
 /**
