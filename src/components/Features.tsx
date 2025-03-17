@@ -23,24 +23,24 @@ const Features = () => {
         </div>
 
         <div className="mt-10">
-          <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 ">
+          <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10 ">
             {featuresList.map((feature) => (
-              <div key={feature.name} className="relative border-2 border-black">
-                <div className="flex items-center">
+              <div key={feature.name} className="relative">
+                <div className="flex flex-col justify-center items-center">
                   <div
                     className={`flex items-center justify-center h-42 w-42 rounded-md bg-background text-tertiary border-primary border-4`}
                   >
                     <img
-                      className={`inline-block h-30 w-30 rounded-full`}
+                      className={`h-full w-full rounded-md object-cover`}
                       src={feature.icon}
                       alt={feature.name}
                     />
                   </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+                  <p className="text-lg mt-4 leading-6 font-medium text-gray-900">
                     {feature.name}
                   </p>
                 </div>
-                <p className="mt-2 ml-16 text-base text-gray-700">
+                <p className="mt-2 text-base text-gray-700">
                   {feature.description}
                 </p>
               </div>

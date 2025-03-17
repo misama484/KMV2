@@ -19,7 +19,7 @@
     },
     {
       "name": "About",
-      "href": "about"
+      "href": "features"
     }
   ],
   "callToAction": {
@@ -34,7 +34,7 @@
     "img": "/assets/images/clinica2.jpg",
     "primaryAction": {
       "text": "Conoce a nuestro equipo",
-      "href": "#"
+      "href": "/features"
     },
     "secondaryAction": {
       "text": "Contacta con nosotros",
@@ -72,9 +72,9 @@
         "icon": "/assets/images/katiaMartin.jpeg"
       },
       {
-        "name": "Tailwind",
-        "description": "Tailwind CSS is a highly customizable, low-level CSS framework for quickly creating beautiful designs without any annoying opinionated stylesheet nonsense.",
-        "icon": "/assets/images/tailwindcss.svg"
+        "name": "Ximo Moreno",
+        "description": "Nuestro manitas, de profesion electricista, aunque igual te cambia un enchufe como te cuelga un cuadro o te cambia un baño. Ximo es una persona alegre y con mucha paciencia, siempre dispuesto a ayudar a los demas.",
+        "icon": "/assets/images/ximoImg.jpg"
       },
       {
         "name": "Next.js",
