@@ -3,7 +3,8 @@ import React, { Fragment } from 'react';
 
 import { Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { Link } from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
+import  Link  from 'next/link';
 import { MdSpa, MdLogin } from 'react-icons/md';
 import config from '../config/index.json';
 
@@ -49,7 +50,7 @@ const Menu = () => {
             </div>
             <div className="hidden md:flex md:ml-10 md:pr-4 md:space-x-8 items-center w-full">
               {navigation.map((item) => (
-                <Link
+                <ScrollLink
                   spy={true}
                   active="active"
                   smooth={true}
@@ -59,15 +60,14 @@ const Menu = () => {
                   className="font-medium text-gray-900 hover:text-gray-500 text-center"
                 >
                   {item.name}
-                </Link>
+                </ScrollLink>
               ))}
-              <a
-                href="#"
-                className={`font-medium text-primary hover:text-border`}
-              >
-                Login
-              </a>
-              <MdLogin className='text-5xl text-primary' href=''/>
+              <Link href="/login">
+                <a className="font-medium text-primary hover:text-border flex items-center">
+                  <MdLogin className="text-5xl text-primary mr-2" />
+                    Login
+                </a>
+              </Link>
             </div>
           </nav>
         </div>
