@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import MenuDashboard from '../components/MenuDashboard';
+import TablaPacientes from '../components/TablaPacientes';
+import TablaTrabajadores from '../components/TablaTrabajadores';
 
 const Dashboard = () => {
   const [pacientes, setPacientes] = useState([]);
@@ -60,12 +63,22 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-background p-8">
       <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
       {error && <p className="text-red-500 text-center">{error}</p>}
 
+      <MenuDashboard />
+
+      {/* Botón de cerrar sesión */}
+        
+
       {/* Tabla de Pacientes */}
       <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+      <h2 className="text-2xl font-bold mb-4">Lista de Pacientes</h2>
+        <TablaPacientes pacientes={pacientes} />
+      </div>
+      
+      {/*<div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4">Lista de Pacientes</h2>
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
@@ -93,10 +106,16 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>/*}
 
       {/* Tabla de Trabajadores */}
+
       <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold mb-4">Lista de Trabajadores</h2>
+        <TablaTrabajadores trabajadores={trabajadores} />
+      </div>
+
+      {/*<div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4">Lista de Trabajadores</h2>
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
@@ -124,7 +143,7 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>*/}
 
       {/* Tabla de Visitas */}
       <div className="bg-white shadow-md rounded-lg p-6">
