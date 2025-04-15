@@ -15,12 +15,15 @@ const Login = () => {
         email,
         password,
       });
+      console.log('console desde login: ', response.data);
 
-      // Almacenar el token en sessionStorage
-      sessionStorage.setItem('token', response.data.token);
-
-      // Redirigir al usuario a la página principal o dashboard
-      window.location.href = '/';
+      if (response.data) {
+        sessionStorage.setItem('token', response.data);
+        console.log('Token almacenado:', sessionStorage.getItem('token')); // Verifica el token
+        window.location.href = '/Dashboard';
+      } else {
+        setError('No se recibió un token válido del servidor.');
+      }
     } catch (err: any) {
       setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
     }
