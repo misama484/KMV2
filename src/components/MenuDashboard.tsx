@@ -11,6 +11,12 @@ const MenuDashboard = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Menu</h1>
         <nav className="flex space-x-4">
+        <a
+            href="/Dashboard"
+            className="hover:bg-background px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Panel
+          </a>
           <a
             href="#pacientes"
             className="hover:bg-background px-3 py-2 rounded-md text-sm font-medium"
@@ -24,7 +30,7 @@ const MenuDashboard = () => {
             Trabajadores
           </a>
           <a
-            href="/Dashboard/Visitas"
+            href="/VisitasDashboard"
             className="hover:bg-background px-3 py-2 rounded-md text-sm font-medium"
           >
             Visitas
