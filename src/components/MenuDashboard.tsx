@@ -24,7 +24,7 @@ const MenuDashboard = () => {
             Pacientes
           </a>
           <a
-            href="#trabajadores"
+            href="/TrabajadoresDashboard"
             className="hover:bg-background px-3 py-2 rounded-md text-sm font-medium"
           >
             Trabajadores
