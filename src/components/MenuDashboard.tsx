@@ -18,7 +18,7 @@ const MenuDashboard = () => {
             Panel
           </a>
           <a
-            href="#pacientes"
+            href="/PacientesDashboard"
             className="hover:bg-background px-3 py-2 rounded-md text-sm font-medium"
           >
             Pacientes

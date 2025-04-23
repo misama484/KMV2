@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import BotonBuscar from '../components/BotonBuscar';
 import MenuDashboard from '../components/MenuDashboard';
+import MenuOptionsDashboard from '../components/MenuOptionsDashboard';
 
 const TrabajadoresDashboard = () => {
   const [trabajadores, setTrabajadores] = useState([]); // Lista de trabajadores para buscar por nombre
@@ -64,7 +65,7 @@ const TrabajadoresDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Visitas por Trabajador</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Trabajadores</h1>
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       <MenuDashboard />
