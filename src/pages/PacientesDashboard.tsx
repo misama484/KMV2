@@ -70,30 +70,18 @@ const PacientesDashboard = () => {
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       <MenuDashboard />
-
-      {/* Menu de opciones */}
-      <MenuOptionsDashboard funcionBusqueda={handleSearchPaciente}/>
-
-      {/* Campo de búsqueda y boton agregar 
-      <div className="mb-4 flex justify-around items-center">
-        <BotonBuscar        
-        placeholder="Buscar paciente por nombre..."
-        onSearch={handleSearchPaciente}
-        />
-        <div className="flex space-x-3">
-          <button className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
-            Añadir Paciente
-          </button>
-          <button className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
-            Editar Paciente
-          </button>
-          <button className="bg-red-600 hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
-            Eliminar Paciente
-          </button>
-        </div>
-      </div>*/}
       
 
+      {/* Campo de búsqueda y boton agregar */}
+      <div className="flex space-x-3">
+        <BotonBuscar        
+          placeholder="Buscar paciente por nombre..."
+          onSearch={handleSearchPaciente}
+        />      
+        <button className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
+          Añadir Paciente
+        </button>
+      </div>
       {/* Desplegable de trabajadores */}
       <div className="mb-4">
         <h2 className="text-xl font-bold">Seleccionar Paciente:</h2>
@@ -115,8 +103,11 @@ const PacientesDashboard = () => {
 
       {/* Información del paciente seleccionado */}
 {selectedPaciente && (
-  <div className="bg-primary shadow-md rounded-lg p-6 mb-4">
-    <h2 className="text-xl font-bold mb-4">Paciente seleccionado:</h2>
+  <div className="bg-primary shadow-md rounded-lg p-6 mb-4 ">
+    <div className="flex justify-between mx-4 items-center ">
+      <h2 className="text-xl font-bold mb-4">Paciente seleccionado:</h2>
+      <MenuOptionsDashboard />
+    </div>
     <table className="min-w-full table-auto border-collapse border border-gray-300">
       <tbody>
         <tr>
