@@ -3,13 +3,25 @@ import React, { useEffect, useState } from 'react';
 import BotonBuscar from '../components/BotonBuscar';
 import MenuDashboard from '../components/MenuDashboard';
 import MenuOptionsDashboard from '../components/MenuOptionsDashboard';
+import ModalAgregarPaciente from '../modal/ModalAgregarPaciente';
+
+interface Paciente {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  notas?: string; // Opcional
+}
 
 const PacientesDashboard = () => {
-  const [pacientes, setPacientes] = useState([]);
-  const [filteredPacientes, setFilteredPacientes] = useState([]); // Lista filtrada de pacientes
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]); // Lista filtrada de pacientes
   const [visitasByPaciente, setVisitasByPaciente] = useState([]); // Visitas del paciente seleccionado
-  const [selectedPaciente, setSelectedPaciente] = useState(null); // Paciente seleccionado
+  const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(null);// Paciente seleccionado
   const [error, setError] = useState('');
+  const [modalOpen, setModalOpen] = useState(false); // Estado para controlar la apertura del modal
 
 
   useEffect(() => {
@@ -59,10 +71,34 @@ const PacientesDashboard = () => {
     setFilteredPacientes(filtered);
   };
 
-  const handleSelectPaciente = (paciente) => {
+  const handleSelectPaciente = (paciente: Paciente) => {
     setSelectedPaciente(paciente); // Establece el paciente seleccionado
     fetchVisitasByPacienteId(paciente.id); // Solicita las visitas del paciente
   };
+
+  const handlePacienteAdded = () => {
+    // Actualiza la lista de pacientes después de agregar uno nuevo
+    const fetchPacientes = async () => {
+      try {
+        const token = sessionStorage.getItem('token');
+        console.log("TOKEN: " + token);
+
+        // Solicita la lista de pacientes
+        const pacientesRes = await axios.get('http://localhost:8080/paciente/getAllPacientes', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setPacientes(pacientesRes.data);
+        setFilteredPacientes(pacientesRes.data); // Inicializa la lista filtrada
+      } catch (error: any) {
+        console.error('Error al cargar los pacientes:', error.response?.data || error.message);
+        setError('Error al cargar los pacientes. Por favor, inténtalo de nuevo.');
+      }
+    };
+
+    fetchPacientes();
+  }
+
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -78,7 +114,9 @@ const PacientesDashboard = () => {
           placeholder="Buscar paciente por nombre..."
           onSearch={handleSearchPaciente}
         />      
-        <button className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
+        <button 
+          onClick={() => setModalOpen(true)} // Abre el modal al hacer clic
+          className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
           Añadir Paciente
         </button>
       </div>
@@ -110,6 +148,10 @@ const PacientesDashboard = () => {
     </div>
     <table className="min-w-full table-auto border-collapse border border-gray-300">
       <tbody>
+        <tr>
+          <td className="border border-gray-300 px-4 py-2 font-bold">ID:</td>
+          <td className="border border-gray-300 px-4 py-2">{selectedPaciente.id}</td>
+        </tr>
         <tr>
           <td className="border border-gray-300 px-4 py-2 font-bold">Nombre:</td>
           <td className="border border-gray-300 px-4 py-2">{`${selectedPaciente.nombre} ${selectedPaciente.apellidos}`}</td>
@@ -166,7 +208,16 @@ const PacientesDashboard = () => {
           <p className="text-center text-gray-500 mt-4">No se encontraron visitas para este paciente.</p>
         )}
       </div>
+        
+        {/* Modal para agregar paciente */}
+        <ModalAgregarPaciente
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onPacienteAdded={handlePacienteAdded}
+        />
     </div>
+
+    
   );
 };
 
