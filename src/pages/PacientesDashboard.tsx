@@ -4,6 +4,8 @@ import BotonBuscar from '../components/BotonBuscar';
 import MenuDashboard from '../components/MenuDashboard';
 import MenuOptionsDashboard from '../components/MenuOptionsDashboard';
 import ModalAgregarPaciente from '../modal/ModalAgregarPaciente';
+import EditarPacienteModal from '../modal/EditarPacienteModal';
+import EliminarPacienteModal from '../modal/EliminarPacienteModal';
 
 interface Paciente {
   id: number;
@@ -22,6 +24,9 @@ const PacientesDashboard = () => {
   const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(null);// Paciente seleccionado
   const [error, setError] = useState('');
   const [modalOpen, setModalOpen] = useState(false); // Estado para controlar la apertura del modal
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para controlar la apertura del modal de edición
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar la apertura del modal de eliminación
+
 
 
   useEffect(() => {
@@ -31,7 +36,7 @@ const PacientesDashboard = () => {
         console.log("TOKEN: " + token);
 
         // Solicita la lista de trabajadores
-        const pacientesRes = await axios.get('http://localhost:8080/paciente/getAllPacientes', {
+        const pacientesRes = await axios.get('http://localhost:8080/paciente/getAllActivePacientes', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -84,7 +89,7 @@ const PacientesDashboard = () => {
         console.log("TOKEN: " + token);
 
         // Solicita la lista de pacientes
-        const pacientesRes = await axios.get('http://localhost:8080/paciente/getAllPacientes', {
+        const pacientesRes = await axios.get('http://localhost:8080/paciente/getAllActivePacientes', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -120,7 +125,7 @@ const PacientesDashboard = () => {
           Añadir Paciente
         </button>
       </div>
-      {/* Desplegable de trabajadores */}
+      {/* Desplegable de Pacientes */}
       <div className="mb-4">
         <h2 className="text-xl font-bold">Seleccionar Paciente:</h2>
         <ul className="bg-primary border rounded-lg shadow-md max-h-40 overflow-y-auto">
@@ -144,7 +149,7 @@ const PacientesDashboard = () => {
   <div className="bg-primary shadow-md rounded-lg p-6 mb-4 ">
     <div className="flex justify-between mx-4 items-center ">
       <h2 className="text-xl font-bold mb-4">Paciente seleccionado:</h2>
-      <MenuOptionsDashboard />
+      <MenuOptionsDashboard editarPaciente={() => setIsEditModalOpen(true)} eliminarPaciente={() => setIsDeleteModalOpen(true)}/>
     </div>
     <table className="min-w-full table-auto border-collapse border border-gray-300">
       <tbody>
@@ -214,6 +219,22 @@ const PacientesDashboard = () => {
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onPacienteAdded={handlePacienteAdded}
+        />
+
+        {/* Modal para editar paciente */}
+        <EditarPacienteModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          paciente={selectedPaciente}
+          onPacienteUpdated={handlePacienteAdded}
+        />
+
+        {/* Modal para eliminar paciente */}
+        <EliminarPacienteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          paciente={selectedPaciente}
+          onPacienteUpdated={handlePacienteAdded}
         />
     </div>
 

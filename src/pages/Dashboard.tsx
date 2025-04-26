@@ -22,7 +22,7 @@ const Dashboard = () => {
 
         // Solicitudes a los endpoints
         const [pacientesRes, trabajadoresRes, visitasRes] = await Promise.all([
-          axios.get('http://localhost:8080/paciente/getAllPacientes', {
+          axios.get('http://localhost:8080/paciente/getAllActivePacientes', {
             headers: { Authorization: `Bearer ${token}` },
           }),
           axios.get('http://localhost:8080/trabajador/getAllTrabajadores', {

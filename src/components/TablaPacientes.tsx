@@ -32,6 +32,7 @@ const TablaPacientes = ({ pacientes }) => {
             <th className="border border-gray-300 px-4 py-2">Email</th>
             <th className="border border-gray-300 px-4 py-2">Teléfono</th>
             <th className="border border-gray-300 px-4 py-2">Dirección</th>
+            <th className="border border-gray-300 px-4 py-2">Activo</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@ const TablaPacientes = ({ pacientes }) => {
               <td className="border border-gray-300 px-4 py-2">{paciente.email}</td>
               <td className="border border-gray-300 px-4 py-2">{paciente.telefono}</td>
               <td className="border border-gray-300 px-4 py-2">{paciente.direccion}</td>
+              <td className="border border-gray-300 px-4 py-2">{paciente.activo ? 'Sí' : 'No'}</td>
             </tr>
           ))}
         </tbody>
