@@ -3,13 +3,29 @@ import React, { useEffect, useState } from 'react';
 import BotonBuscar from '../components/BotonBuscar';
 import MenuDashboard from '../components/MenuDashboard';
 import MenuOptionsDashboard from '../components/MenuOptionsDashboard';
+import AgregarTrabajadorModal from '../modal/AgregarTrabajadorModal';
+import EditarTrabajadorModal from '../modal/EditarTrabajadorModal';
+
+interface Trabajador {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  cargo: string;
+  email: string;
+  telefono: string;
+  notas: string;
+}
+
 
 const TrabajadoresDashboard = () => {
-  const [trabajadores, setTrabajadores] = useState([]); // Lista de trabajadores para buscar por nombre
-  const [filteredTrabajadores, setFilteredTrabajadores] = useState([]); // Lista filtrada de trabajadores
+  const [trabajadores, setTrabajadores] = useState<Trabajador[]>([]); // Lista de trabajadores para buscar por nombre
+  const [filteredTrabajadores, setFilteredTrabajadores] = useState<Trabajador[]>([]); // Lista filtrada de trabajadores
   const [visitasByTrabajador, setVisitasByTrabajador] = useState([]); // Visitas del trabajador seleccionado
-  const [selectedTrabajador, setSelectedTrabajador] = useState(null); // Trabajador seleccionado
+  const [selectedTrabajador, setSelectedTrabajador] = useState<Trabajador | null> (null); // Trabajador seleccionado
   const [error, setError] = useState('');
+  const [modalOpen, setModalOpen] = useState(false); // Estado para controlar la apertura del modal
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para controlar la apertura del modal de edición
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar la apertura del modal de eliminación
 
   useEffect(() => {
     const fetchTrabajadores = async () => {
@@ -18,7 +34,7 @@ const TrabajadoresDashboard = () => {
         console.log("TOKEN: " + token);
 
         // Solicita la lista de trabajadores
-        const trabajadoresRes = await axios.get('http://localhost:8080/trabajador/getAllTrabajadores', {
+        const trabajadoresRes = await axios.get('http://localhost:8080/trabajador/getAllActiveTrabajadores', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -58,10 +74,33 @@ const TrabajadoresDashboard = () => {
     setFilteredTrabajadores(filtered);
   };
 
-  const handleSelectTrabajador = (trabajador) => {
+  const handleSelectTrabajador = (trabajador: Trabajador) => {
     setSelectedTrabajador(trabajador); // Establece el trabajador seleccionado
     fetchVisitasByTrabajadorId(trabajador.id); // Solicita las visitas del trabajador
   };
+
+  const handleTrabajadorAdded = () => {
+    // Actualiza la lista de pacientes después de agregar uno nuevo
+    const fetchTrabajadores = async () => {
+      try {
+        const token = sessionStorage.getItem('token');
+        console.log("TOKEN: " + token);
+
+        // Solicita la lista de trabajadores
+        const trabajadoresRes = await axios.get('http://localhost:8080/trabajador/getAllActiveTrabajadores', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setTrabajadores(trabajadoresRes.data);
+        setFilteredTrabajadores(trabajadoresRes.data); // Inicializa la lista filtrada
+      } catch (error: any) {
+        console.error('Error al cargar los trabajadores:', error.response?.data || error.message);
+        setError('Error al cargar los trabajadores. Por favor, inténtalo de nuevo.');
+      }
+
+    fetchTrabajadores();
+  }
+}
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -71,10 +110,17 @@ const TrabajadoresDashboard = () => {
       <MenuDashboard />
 
       {/* Campo de búsqueda */}
-      <BotonBuscar
-        placeholder="Buscar trabajador por nombre..."
-        onSearch={handleSearchTrabajador}
-      />
+      <div className='flex space-x-3'>
+        <BotonBuscar
+          placeholder="Buscar trabajador por nombre..."
+          onSearch={handleSearchTrabajador}
+        />
+        <button 
+            onClick={() => setModalOpen(true)} // Abre el modal al hacer clic
+            className="bg-primary hover:bg-white px-4 py-2 rounded-md text-sm font-medium">
+            Añadir Trabajador
+        </button>
+      </div>
 
       {/* Desplegable de trabajadores */}
       <div className="mb-4">
@@ -98,7 +144,10 @@ const TrabajadoresDashboard = () => {
       {/* Información del trabajador seleccionado */}
 {selectedTrabajador && (
   <div className="bg-primary shadow-md rounded-lg p-6 mb-4">
-    <h2 className="text-xl font-bold mb-4">Trabajador seleccionado:</h2>
+    <div className='flex justify-between items-center mx-4'>
+      <h2 className="text-xl font-bold mb-4">Trabajador seleccionado:</h2>
+      <MenuOptionsDashboard editar={() => setIsEditModalOpen(true)} eliminar={() => setIsDeleteModalOpen(true)}/>
+    </div>
     <table className="min-w-full table-auto border-collapse border border-gray-300">
       <tbody>
         <tr>
@@ -116,6 +165,10 @@ const TrabajadoresDashboard = () => {
         <tr>
           <td className="border border-gray-300 px-4 py-2 font-bold">Teléfono:</td>
           <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.telefono}</td>
+        </tr>
+        <tr>
+          <td className="border border-gray-300 px-4 py-2 font-bold">Notas:</td>
+          <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.notas}</td>
         </tr>
       </tbody>
     </table>
@@ -153,6 +206,24 @@ const TrabajadoresDashboard = () => {
           <p className="text-center text-gray-500 mt-4">No se encontraron visitas para este trabajador.</p>
         )}
       </div>
+
+      {/* Modal para añadir trabajador */}
+      <AgregarTrabajadorModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onTrabajadorAdded={handleTrabajadorAdded}
+      />
+
+      {/* Modal para editar trabajador */}
+      <EditarTrabajadorModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          trabajador={selectedTrabajador}
+          onTrabajadorUpdated={handleTrabajadorAdded} // Actualiza la lista de trabajadores después de editar
+      />
+
+      {/* Modal para eliminar trabajador */}
+
     </div>
   );
 };

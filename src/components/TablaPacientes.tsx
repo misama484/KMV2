@@ -14,7 +14,8 @@ const TablaPacientes = ({ pacientes }) => {
   };
 
   useEffect(() => {
-    setFilteredPacientes(pacientes); // Actualiza la lista cuando cambien los pacientes
+    const sortedPacientes = [...pacientes].sort((a, b) => a.id - b.id); // Ordena por ID
+    setFilteredPacientes(sortedPacientes); // Actualiza la lista cuando cambien los pacientes
   }, [pacientes]);
 
   return (

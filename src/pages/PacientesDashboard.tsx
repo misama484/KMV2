@@ -149,7 +149,7 @@ const PacientesDashboard = () => {
   <div className="bg-primary shadow-md rounded-lg p-6 mb-4 ">
     <div className="flex justify-between mx-4 items-center ">
       <h2 className="text-xl font-bold mb-4">Paciente seleccionado:</h2>
-      <MenuOptionsDashboard editarPaciente={() => setIsEditModalOpen(true)} eliminarPaciente={() => setIsDeleteModalOpen(true)}/>
+      <MenuOptionsDashboard editar={() => setIsEditModalOpen(true)} eliminar={() => setIsDeleteModalOpen(true)}/>
     </div>
     <table className="min-w-full table-auto border-collapse border border-gray-300">
       <tbody>
