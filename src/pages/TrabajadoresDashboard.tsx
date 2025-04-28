@@ -5,15 +5,20 @@ import MenuDashboard from '../components/MenuDashboard';
 import MenuOptionsDashboard from '../components/MenuOptionsDashboard';
 import AgregarTrabajadorModal from '../modal/AgregarTrabajadorModal';
 import EditarTrabajadorModal from '../modal/EditarTrabajadorModal';
+import EliminarTrabajadorModal from '../modal/EliminarTrabajadorModal';
+import SetPasswordModal from '../modal/SetPasswordModal';
 
 interface Trabajador {
   id: number;
+  dni: string;
   nombre: string;
   apellidos: string;
   cargo: string;
   email: string;
   telefono: string;
   notas: string;
+  password: string;
+  active: boolean;
 }
 
 
@@ -26,6 +31,7 @@ const TrabajadoresDashboard = () => {
   const [modalOpen, setModalOpen] = useState(false); // Estado para controlar la apertura del modal
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para controlar la apertura del modal de edición
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar la apertura del modal de eliminación
+  const [isSetPasswordModalOpen, setIsSetPasswordModalOpen] = useState(false); // Estado para controlar la apertura del modal de cambio de contraseña
 
   useEffect(() => {
     const fetchTrabajadores = async () => {
@@ -159,6 +165,10 @@ const TrabajadoresDashboard = () => {
           <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.cargo}</td>
         </tr>
         <tr>
+          <td className="border border-gray-300 px-4 py-2 font-bold">Dni:</td>
+          <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.dni}</td>
+        </tr>
+        <tr>
           <td className="border border-gray-300 px-4 py-2 font-bold">Email:</td>
           <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.email}</td>
         </tr>
@@ -169,6 +179,27 @@ const TrabajadoresDashboard = () => {
         <tr>
           <td className="border border-gray-300 px-4 py-2 font-bold">Notas:</td>
           <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.notas}</td>
+        </tr>
+        <tr>
+          <td className="border border-gray-300 px-4 py-2 font-bold">Password:</td>
+          <td className="flex border border-gray-300 px-4 py-2">
+            <input
+              type="password"
+              value={selectedTrabajador.password}
+              readOnly
+              className="bg-primary px-2 py-1 w-full"
+            />
+            <button
+               onClick={() => setIsSetPasswordModalOpen(true)} // Funcion que abre el modal para cambiar la contraseña
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm"
+              >
+                Cambiar
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td className="border border-gray-300 px-4 py-2 font-bold">Estado:</td>
+          <td className="border border-gray-300 px-4 py-2">{selectedTrabajador.active ? 'Activo' : 'Inactivo'}</td>
         </tr>
       </tbody>
     </table>
@@ -223,6 +254,20 @@ const TrabajadoresDashboard = () => {
       />
 
       {/* Modal para eliminar trabajador */}
+      <EliminarTrabajadorModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          trabajador={selectedTrabajador}
+          onTrabajadorUpdated={handleTrabajadorAdded} // Actualiza la lista de trabajadores después de eliminar
+      />
+
+      {/* Modal para cambiar contraseña */}
+      <SetPasswordModal
+          isOpen={isSetPasswordModalOpen} // Cambia esto a true si necesitas abrir el modal
+          onClose={() => setIsSetPasswordModalOpen(false)}
+          trabajadorId={selectedTrabajador?.id || 0} // ID del trabajador seleccionado
+          onPasswordChanged={handleTrabajadorAdded} // Actualiza la lista de trabajadores después de cambiar la contraseña
+      />
 
     </div>
   );

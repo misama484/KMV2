@@ -10,7 +10,7 @@ interface EditarTrabajadorModalProps {
 
 const EditarTrabajadorModal: React.FC<EditarTrabajadorModalProps> = ({ isOpen, onClose, trabajador, onTrabajadorUpdated }) => {
   const [formData, setFormData] = useState({
-    
+    id: 0,
     nombre: '',
     apellidos: '',
     dni: '',
@@ -19,13 +19,14 @@ const EditarTrabajadorModal: React.FC<EditarTrabajadorModalProps> = ({ isOpen, o
     telefono: '',
     cargo: '',
     notas: '',
+    password: '', // Añadido el campo password
   });
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (trabajador) {
       setFormData({
-        
+        id: trabajador.id,
         nombre: trabajador.nombre,
         apellidos: trabajador.apellidos,
         dni: trabajador.dni,
@@ -33,7 +34,8 @@ const EditarTrabajadorModal: React.FC<EditarTrabajadorModalProps> = ({ isOpen, o
         email: trabajador.email,
         telefono: trabajador.telefono ,
         cargo: trabajador.cargo,
-        notas: trabajador.notas 
+        notas: trabajador.notas || '',
+        password: trabajador.password,
       });
     }
   }, [trabajador]);
@@ -47,7 +49,10 @@ const EditarTrabajadorModal: React.FC<EditarTrabajadorModalProps> = ({ isOpen, o
     e.preventDefault();
     try {
       const token = sessionStorage.getItem('token');
-      await axios.put(`http://localhost:8080/trabajador/updateTrabajador`, formData, {
+      //Para evitar que se modifique la cntraseña al editar el trabajador, se excluye el campo password del formData
+      const { password, ...dataToSend } = formData; // Excluye el campo `password` si existe
+      console.log('Datos a enviar:', dataToSend); // Verifica los datos que se envían 
+      await axios.put(`http://localhost:8080/trabajador/updateTrabajador`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onTrabajadorUpdated(); // Llama al callback para actualizar la lista de trabajadores
