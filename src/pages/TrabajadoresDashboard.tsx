@@ -265,7 +265,7 @@ const TrabajadoresDashboard = () => {
       <SetPasswordModal
           isOpen={isSetPasswordModalOpen} // Cambia esto a true si necesitas abrir el modal
           onClose={() => setIsSetPasswordModalOpen(false)}
-          trabajadorId={selectedTrabajador?.id || 0} // ID del trabajador seleccionado
+          trabajador={selectedTrabajador} //trabajador seleccionado
           onPasswordChanged={handleTrabajadorAdded} // Actualiza la lista de trabajadores después de cambiar la contraseña
       />
 

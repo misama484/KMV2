@@ -34,11 +34,10 @@ const SetPasswordModal: React.FC<SetPasswordModalProps> = ({ isOpen, onClose, tr
     try {
       const token = sessionStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:8080/trabajador/updatePassword`, //TODO: Cambiar la URL a la correcta y pasar parametros deacuerdo al backend
+        `http://localhost:8080/trabajador/${trabajador.id}/updatePassword`, 
         {
-          id: trabajador.id,
-          actualPassword,
-          newPassword,
+          currentPassword: actualPassword,
+          newPassword: newPassword,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -66,7 +65,7 @@ const SetPasswordModal: React.FC<SetPasswordModalProps> = ({ isOpen, onClose, tr
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-background rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Cambiar Contraseña</h2>
+        <h2 className="text-xl font-bold mb-4">Cambiar Contraseña de {trabajador?.nombre}</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
         <div className="mb-4">

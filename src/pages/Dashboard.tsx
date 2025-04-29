@@ -4,21 +4,53 @@ import MenuDashboard from '../components/MenuDashboard';
 import TablaPacientes from '../components/TablaPacientes';
 import TablaTrabajadores from '../components/TablaTrabajadores';
 import TablaVisitas from '../components/TablaVisitas';
+import CalendarioDashboard from '../components/CalendarioDashboard';
+
+interface Paciente {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fecha_nacimiento: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  notas: string;
+}
+
+interface Trabajador {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fecha_nacimiento: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  cargo: string;
+}
+
+interface Visita {
+  id: number;
+  fecha: string;
+  hora: string;
+  paciente_id: number;
+  trabajador_id: number;
+  notas: string;
+}
 
 const Dashboard = () => {
-  const [pacientes, setPacientes] = useState([]);
-  const [trabajadores, setTrabajadores] = useState([]);
-  const [visitas, setVisitas] = useState([]);
+  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [trabajadores, setTrabajadores] = useState<Trabajador[]>([]);
+  const [visitas, setVisitas] = useState<Visita[]>([]);
   const [error, setError] = useState('');
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // Estado para la fecha seleccionada
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         
-        const token = sessionStorage.getItem('token'); // Obtén el token de sessionStorage
-        /*const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQ0NzA3MzA1LCJleHAiOjE3NDQ3OTM3MDV9.yB15PauVqa68YTa6PexEgJFyIg82FRcxFGu7fX-qG-Q"*/
-        console.log("TOKEN: " + token); // Verifica si el token se obtiene correctamente
-        console.log(`Authorization: Bearer ${token}`); // Verifica el encabezado
+        const token = sessionStorage.getItem('token'); // Obtén el token de sessionStorage      
+        //console.log("TOKEN: " + token); // Verifica si el token se obtiene correctamente
+        //console.log(`Authorization: Bearer ${token}`); // Verifica el encabezado
 
         // Solicitudes a los endpoints
         const [pacientesRes, trabajadoresRes, visitasRes] = await Promise.all([
@@ -38,14 +70,14 @@ const Dashboard = () => {
         console.log('Visitas:', visitasRes.data);
 
         const pacientesDict = Object.fromEntries(
-          pacientesRes.data.map((paciente) => [paciente.id, `${paciente.nombre} ${paciente.apellidos}`])
+          pacientesRes.data.map((paciente: Paciente) => [paciente.id, `${paciente.nombre} ${paciente.apellidos}`])
         );
 
         const trabajadoresDict = Object.fromEntries(
-          trabajadoresRes.data.map((trabajador) => [trabajador.id, `${trabajador.nombre} ${trabajador.apellidos}`])
+          trabajadoresRes.data.map((trabajador: Trabajador) => [trabajador.id, `${trabajador.nombre} ${trabajador.apellidos}`])
         );
 
-        const visitasConNombres = visitasRes.data.map((visita) => ({
+        const visitasConNombres = visitasRes.data.map((visita: Visita) => ({
           ...visita,
           pacienteNombre: pacientesDict[visita.paciente_id] || 'Desconocido',
           trabajadorNombre: trabajadoresDict[visita.trabajador_id] || 'Desconocido',
@@ -63,12 +95,27 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date); // Actualiza el día seleccionado
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
       {error && <p className="text-red-500 text-center">{error}</p>}
 
-      <MenuDashboard />       
+      <MenuDashboard />      
+
+      {/* Calendario  */}
+      <CalendarioDashboard onDateChange={handleDateChange} />
+
+      {/* Sección de estadísticas */}
+      <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold mb-4">Estadísticas</h2>
+        <p className="text-lg mb-2">Total de Pacientes: {pacientes.length}</p>
+        <p className="text-lg mb-2">Total de Trabajadores: {trabajadores.length}</p>
+        <p className="text-lg mb-2">Total de Visitas: {visitas.length}</p>
+      </div>  
 
       {/* Tabla de Pacientes */}
       <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
