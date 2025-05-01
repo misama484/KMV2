@@ -107,7 +107,7 @@ const Dashboard = () => {
       <MenuDashboard />      
 
       {/* Calendario  */}
-      <CalendarioDashboard onDateChange={handleDateChange} />
+      <CalendarioDashboard onDateChange={handleDateChange} pacientes={pacientes} trabajadores={trabajadores} visitas={visitas} />
 
       {/* Sección de estadísticas */}
       <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
