@@ -83,6 +83,8 @@ const Dashboard = () => {
           trabajadorNombre: trabajadoresDict[visita.trabajador_id] || 'Desconocido',
         }));
 
+        console.log('Visitas con nombres:', visitasConNombres);
+
         setPacientes(pacientesRes.data);
         setTrabajadores(trabajadoresRes.data);
         setVisitas(visitasConNombres);

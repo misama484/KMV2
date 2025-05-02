@@ -6,6 +6,38 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import ReservarCitaModal from '../modal/ReservarCitaModal'; // Asegúrate de que la ruta sea correcta
 
+interface Paciente {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fecha_nacimiento: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  notas: string;
+}
+
+interface Trabajador {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  fecha_nacimiento: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  cargo: string;
+}
+
+interface Visita {
+  id: number;
+  paciente: Paciente;
+  trabajador: Trabajador;
+  motivo: string;
+  notas: string;
+  fecha: string;
+  hora: string;
+}
+
 interface CalendarioDashboardProps {
   onDateChange: (date: Date) => void; // Callback para notificar al padre sobre el cambio de fecha
   pacientes: Paciente[]; // Lista de pacientes
@@ -18,14 +50,19 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   const [selectedTime, setSelectedTime] = useState<String | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la apertura del modal
 
+
   const handleDateChange = (date: Date) => {
     onDateChange(date); // Notifica al componente padre
     console.log('Fecha seleccionada:', date.toLocaleDateString());
     console.log('Hora seleccionada:', date.toLocaleTimeString());
   };
 
+  /*const handleSaveCita = (nuevaCita: Visita) => {
+    setListaVisitas((prevVisitas) => [...prevVisitas, nuevaCita]); // Agrega la nueva cita al estado
+  };*/
+
     const events = visitas.map((visita) => ({
-    title: `Paciente: ${visita.pacienteNombre} - Trabajador: ${visita.trabajadorNombre}`,
+    title: `Paciente: ${visita.paciente.nombre + ' ' + visita.paciente.apellidos} - Trabajador: ${visita.trabajador.nombre + ' ' + visita.trabajador.apellidos}`,
     start: `${visita.fecha}T${visita.hora}`, // Combina fecha y hora
     end: `${visita.fecha}T${visita.hora}`, // Puedes ajustar la duración si es necesario
   }));
@@ -35,7 +72,7 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   //TODO : Cambiar el color de los eventos según el paciente
   //TODO : Incorporar get para mostrar visitas en agenda de modal
   //
-  //TODO : Preparar el ednpoint para enviar visita a la bd
+  //TODO : La lista de visitas no se actualiza al agregar una nueva visita. Se debe actualizar el estado de la lista de visitas en el componente padre y pasarla como prop al componente hijo.
 
   return (
     <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
@@ -97,7 +134,8 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
         onClose={() => setIsModalOpen(false)}
         trabajadores={trabajadores}
         pacientes={pacientes}
-        onSave={() => {console.log('Cita reservada');}}
+        visitas={visitas}
+        onSave={(nuevaCita) => {handleSaveCita(nuevaCita); setIsModalOpen(false);}}
       />
       
     </div>
