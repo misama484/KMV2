@@ -45,8 +45,8 @@ interface ReservarCitaModalProps {
   pacientes: Paciente[];
   visitas: Visita[];
   onSave: (cita: {
-    trabajadorId: number;
-    pacienteId: number;
+    trabajador: Trabajador;
+    paciente: Paciente;
     fecha: string;
     hora: string;
     motivo: string;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -49,7 +49,12 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   const [selectedDate, setSelectedDate] = useState<String | null>(null);
   const [selectedTime, setSelectedTime] = useState<String | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la apertura del modal
+  const [listaVisitas, setListaVisitas] = useState<Visita[]>([]);
 
+  useEffect(() => {
+    // Aquí puedes cargar las visitas iniciales si es necesario
+    setListaVisitas(visitas); // Carga las visitas desde la prop o desde un API
+  }, [visitas]);
 
   const handleDateChange = (date: Date) => {
     onDateChange(date); // Notifica al componente padre
@@ -57,11 +62,11 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
     console.log('Hora seleccionada:', date.toLocaleTimeString());
   };
 
-  /*const handleSaveCita = (nuevaCita: Visita) => {
+  const handleSaveCita = (nuevaCita: Visita) => {
     setListaVisitas((prevVisitas) => [...prevVisitas, nuevaCita]); // Agrega la nueva cita al estado
-  };*/
+  };
 
-    const events = visitas.map((visita) => ({
+    const events = listaVisitas.map((visita) => ({
     title: `Paciente: ${visita.paciente.nombre + ' ' + visita.paciente.apellidos} - Trabajador: ${visita.trabajador.nombre + ' ' + visita.trabajador.apellidos}`,
     start: `${visita.fecha}T${visita.hora}`, // Combina fecha y hora
     end: `${visita.fecha}T${visita.hora}`, // Puedes ajustar la duración si es necesario
@@ -134,7 +139,7 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
         onClose={() => setIsModalOpen(false)}
         trabajadores={trabajadores}
         pacientes={pacientes}
-        visitas={visitas}
+        visitas={listaVisitas}
         onSave={(nuevaCita) => {handleSaveCita(nuevaCita); setIsModalOpen(false);}}
       />
       

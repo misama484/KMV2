@@ -101,6 +101,10 @@ const Dashboard = () => {
     setSelectedDate(date); // Actualiza el día seleccionado
   };
 
+  const handleSaveCita = (nuevaCita: Visita) => {
+    setVisitas((prevVisitas) => [...prevVisitas, nuevaCita]); // Agrega la nueva cita al estado global
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <h1 className="text-3xl font-bold text-center mb-8">Dashboard</h1>
@@ -109,7 +113,7 @@ const Dashboard = () => {
       <MenuDashboard />      
 
       {/* Calendario  */}
-      <CalendarioDashboard onDateChange={handleDateChange} pacientes={pacientes} trabajadores={trabajadores} visitas={visitas} />
+      <CalendarioDashboard onDateChange={handleDateChange} pacientes={pacientes} trabajadores={trabajadores} visitas={visitas} onSave={handleSaveCita} />
 
       {/* Sección de estadísticas */}
       <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
