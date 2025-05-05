@@ -4,56 +4,27 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import ReservarCitaModal from '../modal/ReservarCitaModal'; // Asegúrate de que la ruta sea correcta
+import ReservarCitaModal from '../modal/ReservarCitaModal'; 
+import { Paciente, Trabajador, Visita } from '../config/Types'; 
 
-interface Paciente {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  notas: string;
-}
-
-interface Trabajador {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  cargo: string;
-}
-
-interface Visita {
-  id: number;
-  paciente: Paciente;
-  trabajador: Trabajador;
-  motivo: string;
-  notas: string;
-  fecha: string;
-  hora: string;
-}
 
 interface CalendarioDashboardProps {
   onDateChange: (date: Date) => void; // Callback para notificar al padre sobre el cambio de fecha
   pacientes: Paciente[]; // Lista de pacientes
   trabajadores: Trabajador[]; // Lista de trabajadores
   visitas: Visita[]; // Lista de visitas
+  onSave: (cita: Visita) => void; // Callback para guardar la cita
 }
 
-const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange, pacientes, trabajadores, visitas }) => {
+const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange, pacientes, trabajadores, visitas, onSave }) => {
   const [selectedDate, setSelectedDate] = useState<String | null>(null);
   const [selectedTime, setSelectedTime] = useState<String | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la apertura del modal
   const [listaVisitas, setListaVisitas] = useState<Visita[]>([]);
 
+
   useEffect(() => {
-    // Aquí puedes cargar las visitas iniciales si es necesario
-    setListaVisitas(visitas); // Carga las visitas desde la prop o desde un API
+    setListaVisitas(visitas); // Sincroniza listaVisitas con las visitas globales
   }, [visitas]);
 
   const handleDateChange = (date: Date) => {
@@ -63,11 +34,16 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   };
 
   const handleSaveCita = (nuevaCita: Visita) => {
+    onSave(nuevaCita); // Llama al callback pasado desde el componente padre
     setListaVisitas((prevVisitas) => [...prevVisitas, nuevaCita]); // Agrega la nueva cita al estado
+    console.log('Nueva cita guardada desde calendarioDashboard:', nuevaCita);
   };
+  /*const handleSave = (nuevaCita: Visita) => {
+    onSave(nuevaCita); // Llama al callback pasado desde el componente padre
+  };*/
 
-    const events = listaVisitas.map((visita) => ({
-    title: `Paciente: ${visita.paciente.nombre + ' ' + visita.paciente.apellidos} - Trabajador: ${visita.trabajador.nombre + ' ' + visita.trabajador.apellidos}`,
+  const events = listaVisitas.map((visita) => ({
+    title: `Paciente: ${visita.paciente.nombre} ${visita.paciente.apellidos} - Trabajador: ${visita.trabajador.nombre} ${visita.trabajador.apellidos}`,
     start: `${visita.fecha}T${visita.hora}`, // Combina fecha y hora
     end: `${visita.fecha}T${visita.hora}`, // Puedes ajustar la duración si es necesario
   }));

@@ -3,40 +3,7 @@ import axios from 'axios';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
-
-
-interface Paciente {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  notas: string;
-}
-
-interface Trabajador {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  cargo: string;
-}
-
-interface Visita {
-  id: number;
-  paciente: Paciente;
-  trabajador: Trabajador;
-  motivo: string;
-  notas: string;
-  fecha: string;
-  hora: string;
-}
+import { Trabajador, Paciente, Visita } from '../config/Types'; 
 
 interface ReservarCitaModalProps {
   isOpen: boolean;
@@ -96,6 +63,8 @@ const ReservarCitaModal: React.FC<ReservarCitaModalProps> = ({
     }
 
     //const formattedDate = new Date(selectedDate).toISOString().split('T')[0]; // Formato yyyy-MM-dd
+
+    //EL ERROR PARECE ESTAR EN LA FORMA EN LA QUE SE ENVIA LA HORA, LA HORA DE DOS DIGJITOS CON 0 DELANTE, SE ENVIA SIN EL 0 DELANTE, POR LO QUE NO SE MUESTRA EN EL CALENDARIO, LAS HORAS CON DOS DIGITOS  EN LAS HORAS, SE MUESTRAN OK
   
     const nuevaCita = {
       fecha: selectedDate,
@@ -119,10 +88,10 @@ const ReservarCitaModal: React.FC<ReservarCitaModalProps> = ({
         },
       });
   
-      console.log('Cita guardada exitosamente:', response.data);
+      console.log('Cita guardada exitosamente desde el modal:', response.data);
       alert('Cita guardada exitosamente.');
   
-      onSave(nuevaCita); // Llama al callback para actualizar el estado en el componente padre
+      onSave(response.data); // Llama al callback para actualizar el estado en el componente padre
       onClose(); // Cierra la modal después de guardar
     } catch (error: any) {
       console.error('Error al guardar la cita:', error);

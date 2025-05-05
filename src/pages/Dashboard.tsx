@@ -5,37 +5,9 @@ import TablaPacientes from '../components/TablaPacientes';
 import TablaTrabajadores from '../components/TablaTrabajadores';
 import TablaVisitas from '../components/TablaVisitas';
 import CalendarioDashboard from '../components/CalendarioDashboard';
+import { Visita, Paciente, Trabajador } from '../config/Types'
 
-interface Paciente {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  notas: string;
-}
 
-interface Trabajador {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  fecha_nacimiento: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  cargo: string;
-}
-
-interface Visita {
-  id: number;
-  fecha: string;
-  hora: string;
-  paciente_id: number;
-  trabajador_id: number;
-  notas: string;
-}
 
 const Dashboard = () => {
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
@@ -103,6 +75,7 @@ const Dashboard = () => {
 
   const handleSaveCita = (nuevaCita: Visita) => {
     setVisitas((prevVisitas) => [...prevVisitas, nuevaCita]); // Agrega la nueva cita al estado global
+    console.log('Nueva cita guardada desde el dashboard:', nuevaCita);
   };
 
   return (
