@@ -51,8 +51,8 @@ const Dashboard = () => {
 
         const visitasConNombres = visitasRes.data.map((visita: Visita) => ({
           ...visita,
-          pacienteNombre: pacientesDict[visita.paciente_id] || 'Desconocido',
-          trabajadorNombre: trabajadoresDict[visita.trabajador_id] || 'Desconocido',
+          pacienteNombre: pacientesDict[visita.paciente.id] || 'Desconocido',
+          trabajadorNombre: trabajadoresDict[visita.trabajador.id] || 'Desconocido',
         }));
 
         console.log('Visitas con nombres:', visitasConNombres);

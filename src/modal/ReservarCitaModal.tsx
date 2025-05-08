@@ -55,6 +55,14 @@ const ReservarCitaModal: React.FC<ReservarCitaModalProps> = ({
     }
   }, [selectedTrabajador, visitas]);
 
+  const formatTime = (time: string): string => {
+    const [hours, minutes, seconds] = time.split(':').map(Number); // Divide la hora en partes
+    const formattedHours = String(hours).padStart(2, '0'); // Asegura que las horas tengan 2 dígitos
+    const formattedMinutes = String(minutes).padStart(2, '0'); // Asegura que los minutos tengan 2 dígitos
+    const formattedSeconds = String(seconds || 0).padStart(2, '0'); // Asegura que los segundos tengan 2 dígitos
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
 
   const handleSave = async () => {
     if (!selectedTrabajador || !selectedPaciente || !selectedDate || !selectedTime || !motivo) {
@@ -62,13 +70,14 @@ const ReservarCitaModal: React.FC<ReservarCitaModalProps> = ({
       return;
     }
 
-    //const formattedDate = new Date(selectedDate).toISOString().split('T')[0]; // Formato yyyy-MM-dd
 
-    //EL ERROR PARECE ESTAR EN LA FORMA EN LA QUE SE ENVIA LA HORA, LA HORA DE DOS DIGJITOS CON 0 DELANTE, SE ENVIA SIN EL 0 DELANTE, POR LO QUE NO SE MUESTRA EN EL CALENDARIO, LAS HORAS CON DOS DIGITOS  EN LAS HORAS, SE MUESTRAN OK
+
+    const formattedTime = formatTime(selectedTime); // Formatea la hora seleccionada
   
     const nuevaCita = {
       fecha: selectedDate,
-      hora: selectedTime,
+      hora: formattedTime, // Usa la hora formateada para enviar a backend el formato correcto (HH:mm:ss)
+    //hora: selectedTime, // Usa la hora seleccionada (H:mm:ss)
       motivo: motivo,
       notas: notas,
       paciente: selectedPaciente,
@@ -121,7 +130,7 @@ const ReservarCitaModal: React.FC<ReservarCitaModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+      <div className="bg-primary rounded-lg shadow-lg p-6 w-full max-w-lg">
         <h2 className="text-xl font-bold mb-4">Reservar Cita</h2>
 
         {/* Selección de trabajador */}

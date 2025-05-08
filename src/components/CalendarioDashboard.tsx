@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import ReservarCitaModal from '../modal/ReservarCitaModal'; 
 import { Paciente, Trabajador, Visita } from '../config/Types'; 
+import DetalleVisitaModal from '../modal/DetalleVisitaModal'; // Importa el modal de detalles de visita
 
 
 interface CalendarioDashboardProps {
@@ -21,6 +22,8 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   const [selectedTime, setSelectedTime] = useState<String | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la apertura del modal
   const [listaVisitas, setListaVisitas] = useState<Visita[]>([]);
+  const [selectedVisita, setSelectedVisita] = useState<Visita | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
 
   useEffect(() => {
@@ -43,6 +46,7 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   };*/
 
   const events = listaVisitas.map((visita) => ({
+    id: visita.id.toString(), // Convierte el ID a string para FullCalendar
     title: `Paciente: ${visita.paciente.nombre} ${visita.paciente.apellidos} - Trabajador: ${visita.trabajador.nombre} ${visita.trabajador.apellidos}`,
     start: `${visita.fecha}T${visita.hora}`, // Combina fecha y hora
     end: `${visita.fecha}T${visita.hora}`, // Puedes ajustar la duración si es necesario
@@ -53,7 +57,6 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
   //TODO : Cambiar el color de los eventos según el paciente
   //TODO : Incorporar get para mostrar visitas en agenda de modal
   //
-  //TODO : La lista de visitas no se actualiza al agregar una nueva visita. Se debe actualizar el estado de la lista de visitas en el componente padre y pasarla como prop al componente hijo.
 
   return (
     <div className="bg-primary shadow-md rounded-lg p-6 mb-8">
@@ -104,13 +107,21 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         }}
+
         eventClick={(info) => {
-          const appointment = info.event.extendedProps.appointment;
-          alert(`Appointment with ${appointment.client.first_name} ${appointment.client.last_name} for ${appointment.service.name}`);
+          const visita = listaVisitas.find((v) => v.id === Number(info.event.id)); // Busca la visita por ID
+          if (visita) {
+            setSelectedVisita(visita); // Guarda la visita seleccionada
+            setIsDetailModalOpen(true); // Abre la modal de detalles
+          }
+        }}
+
+        eventMouseEnter={(info) => {
+          info.el.style.cursor = 'pointer'; // Cambia el cursor al pasar el mouse sobre el evento
         }}
       />
 
-<ReservarCitaModal
+      <ReservarCitaModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         trabajadores={trabajadores}
@@ -118,6 +129,13 @@ const CalendarioDashboard: React.FC<CalendarioDashboardProps> = ({ onDateChange,
         visitas={listaVisitas}
         onSave={(nuevaCita) => {handleSaveCita(nuevaCita); setIsModalOpen(false);}}
       />
+
+      {isDetailModalOpen && selectedVisita && (
+        <DetalleVisitaModal
+          visita={selectedVisita}
+          onClose={() => setIsDetailModalOpen(false)}
+        />
+      )}
       
     </div>
   );

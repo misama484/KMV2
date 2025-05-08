@@ -24,7 +24,7 @@ const TablaPacientes = ({ pacientes }) => {
         placeholder="Buscar pacientes por nombre..."
         onSearch={handleSearch}
       />
-      <table className="min-w-full table-auto border-collapse border border-gray-300">
+      <table className="min-w-full table-auto border-collapse border border-gray-300 mt-4">
         <thead>
           <tr>
             <th className="border border-gray-300 px-4 py-2">ID</th>
